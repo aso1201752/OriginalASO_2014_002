@@ -5,6 +5,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
@@ -17,14 +18,14 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// TODO 自動生成されたメソッド・スタブ
 		db.execSQL("CREATE TABLE IF NOT EXISTS" +
-				"Hitokoto(_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,phrase fTEXT)");
+				"Hitokoto(_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,phrase TEXT)");
 
 	}
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// TODO 自動生成されたメソッド・スタブ
-			db.execSQL("drop table Hitokoto ");
+			db.execSQL("drop table Hitokoto;");
 			onCreate(db);
 	}	
 
@@ -32,16 +33,16 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 		String sqlstr = "insert into Hitokoto(phrase) values('"+ inputMsg + "');";
 				try{
 					db.beginTransaction();
-					db.exeSQL(sqlstr);
+					db.execSQL(sqlstr);
 					
 					db.setTransactionSuccessful();
 				} catch (SQLException e) {
 					Log.e("ERROR",e.toString());
-				finally {
+				}finally {
 					db.endTransaction();
 				}
 		return;} 
-	}
+	
 	
 	public String selectRandomHitokoto(SQLiteDatabase db){
 		String rtString = null;
